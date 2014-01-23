@@ -1,0 +1,28 @@
+{
+    "basePath": "",
+    
+    "database": {
+        "database": "mysite",
+        "host": "127.0.0.1",
+        "user": "root",
+        "password": ""
+    },
+    
+    "http": {
+        "active": true,
+        "socketio": false,
+        "threads": 1,
+        "port": 9080
+    },
+    
+    "https": {
+        "active": false,
+        "socketio": false,
+        "port": 9081,
+        "threads": 1,
+        
+        "privateKey": "./tmp/key.pem",
+        "certificate":  "./tmp/cert.crt",
+        "ca": "./tmp/ca.crt"
+    }
+}

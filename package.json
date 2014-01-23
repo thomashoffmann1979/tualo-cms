@@ -1,0 +1,42 @@
+{
+    "name": "tualo-cms",
+    "description": "Simple content management",
+    "homepage": "https://github.com/tualo/tualo-cms",
+    "main": "lib/server.js",
+    "bin": {
+        "tualo-cms": "./bin/server"
+    },
+    "version": "0.0.1",
+    "engines": {
+        "node": ">=0.8.0"
+    },
+    "keywords": [
+        "cms"
+    ],
+    "author": [
+        {
+            "name": "Thomas Hoffmann",
+            "email": "thomas.hoffmann@tualo.de",
+            "url": "http://tualo.de/"
+        }
+    ],
+    "maintainers": [
+        {
+            "name": "Thomas Hoffmann",
+            "email": "thomas.hoffmann@tualo.de",
+            "url": "http://tualo.de/"
+        }
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/tualo/tualo-cms.git"
+    },
+    "readmeFilename": "README.md",
+    "dependencies": {
+        "express": ">=3.1.1",
+        "jade": ">=0.28.2",
+        "socket.io": ">=0.9.14",
+        "socket.io-client": ">=0.9.11",
+        "mysql": "2.0.1"
+    }
+}

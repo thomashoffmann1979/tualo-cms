@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+
+var forever = require('forever'),
+    path = require('path');
+
+if (process.argv.length>2){
+    if (process.argv[2]=='start'){
+        forever.startDaemon(path.join(__dirname,'..','lib','starter.js'),{
+            uid: 'tualo-cms'
+        });
+    }
+    if (process.argv[2]=='stop'){
+        forever.stop('tualo-cms');
+    }
+    if (process.argv[2]=='restart'){
+        forever.restart('tualo-cms');
+    }
+}else{
+    // start as single program
+    forever.start(path.join(__dirname,'..','lib','starter.js'),{
+        uid: 'tualo-cms'
+    });
+}
