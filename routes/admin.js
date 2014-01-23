@@ -6,17 +6,27 @@ var pages = function(req, res, next) {
     });
 }
 
+var tree = function(config,cb){
+    
+    config.connection.query('select id,classname,created,showinmenus,title,menutitle,parentid from sitetree', function(err, rows, fields) {
+        if (err) throw err;
+        console.log('The solution is: ', rows);
+    });
+    
+}
+
 var ui = function(req, res, next) {
     pool.getConnection(function(err, connection) {
         //console.log(err);
         if (err){
             res.end('an error occured');
         }else{
+            
             //console.log(connection);
             res.render('admin/pages/pages',{
                 title: 'MySite'
             });
-            connection.end();
+            connection.release();
         }
     });
     

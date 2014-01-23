@@ -1,0 +1,10 @@
+// Sample Text
+nav.navbar.navbar-default.navbar-fixed-bottom(role="navigation")
+    div.container
+        div.row
+            ol.breadcrumb
+                - for (var i in MainNavigation)
+                    - var item = MainNavigation[i];
+                    - if (item.ShowInMenus == 0) continue;
+                    li
+                        a(href=item.URLSegment) #{item.Title}

@@ -1,0 +1,16 @@
+// Sample Text
+nav.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
+    div.navbar-header
+        button.navbar-toggle(type="button",data-toggle="collapse",data-target="#bs-example-navbar-collapse-1")
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        a.navbar-brand(href="#") !{Site.Title}
+    div#bs-example-navbar-collapse-1.collapse.navbar-collapse.pull-right
+        ul.nav.navbar-nav
+            - for (var i in MainNavigation)
+                - var item = MainNavigation[i];
+                - if (item.ShowInMenus == 0) continue;
+                li
+                    a(href=item.URLSegment) #{item.Title}
