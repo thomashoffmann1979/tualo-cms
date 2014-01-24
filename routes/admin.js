@@ -1,41 +1,51 @@
-var pool;
-
-var pages = function(req, res, next) {
-    res.render('admin/pages/pages',{
-        title: 'MySite'
-    });
-}
-
-var tree = function(config,cb){
-    
-    config.connection.query('select id,classname,created,showinmenus,title,menutitle,parentid from sitetree', function(err, rows, fields) {
-        if (err) throw err;
-        console.log('The solution is: ', rows);
-    });
-    
-}
+var path = require('path'),
+    cms;
 
 var ui = function(req, res, next) {
-    pool.getConnection(function(err, connection) {
-        //console.log(err);
-        if (err){
-            res.end('an error occured');
-        }else{
-            
-            //console.log(connection);
-            res.render('admin/pages/pages',{
-                title: 'MySite'
-            });
-            connection.release();
-        }
-    });
+    res.locals.Page = {
+        ID: -1,
+        Title: 'Error',
+        Content: 'Not found',
+        ClassName: 'ErrorPage'
+    }; 
+    sendResult(req, res, next);
+}
+
+
+var defaults = function(req, res, next) {
+    req.originalUrl = '/admin/pages';
+    pages(req, res, next);
+}
+
+var pages = function(req, res, next) {
+    res.locals.Template = 'admin';
+    var urlParts = (req.originalUrl.split('/')).slice(3),
+        queryPage = (urlParts.length>0)?urlParts[urlParts.length-1]:'';
     
+    if (queryPage == ''){
+        queryPage = 'home';
+    }
+
+
+    res.locals.Page = {
+        ID: -1,
+        Title: 'Test',
+        Content: 'Not found',
+        ClassName: 'Page'
+    }; 
+    
+    sendResult(req, res, next);
+}
+
+var sendResult = function(req,res,next){
+    return res.render(path.join(res.locals.Template,'pages',res.locals.Page.ClassName));
 }
 
 exports.route = function(app){
-    pool = app.get('mysql pool');
-    app.get(app.get('base path')+'/admin',ui);
-    app.get(app.get('base path')+'/admin/pages',ui);
+    cms = app.get('cms');
+    app.get(app.get('base path')+'/admin/pages/*',pages);
     app.get(app.get('base path')+'/admin/settings',ui);
     app.get(app.get('base path')+'/admin/security',ui);
+    app.get(app.get('base path')+'/admin/*',defaults);
+    app.get(app.get('base path')+'/admin',defaults);
 }

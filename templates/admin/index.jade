@@ -1,21 +1,16 @@
 doctype html
 html(lang="de")
     head
-        title= title
+        title !{Site.Title} &raquo; !{Page.Title}
         link(rel="stylesheet",href="/bootstrap/css/bootstrap.min.css")
+        link(rel="stylesheet",href="/templates/simple/style.css")
         script(src="/jquery/jquery-2.0.3.min.js")
         script(src="/bootstrap/js/bootstrap.min.js")
     body
         include includes/header
         div.container
             div.row
-                div.col-md-2
-                    ul.nav.nav-pills.nav-stacked
-                        li 
-                            a(href='./pages') Pages
-                        li 
-                            a(href='./settings') Settings
-                        li 
-                            a(href='./security') Security
-                div.col-md-10
-                    block content
+                include includes/navigation
+                block content
+        include includes/footer
+                    
