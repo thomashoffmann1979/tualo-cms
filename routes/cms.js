@@ -3,17 +3,13 @@ var path = require('path'),
 
 var ui = function(req, res, next) {
     
-    var template = 'simple',
-        MainNavigation = [],
-        urlParts = req.originalUrl.split('/'),
+    var urlParts = req.originalUrl.split('/'),
         queryPage = urlParts[1];
     
     if (queryPage == ''){
         queryPage = 'home';
     }
     
-    res.locals.Template = 'simple';
-    res.locals.MainNavigation = cms.mainNavigation;
     
     res.locals.Page = {
         ID: -1,
@@ -31,7 +27,6 @@ var ui = function(req, res, next) {
         if (typeof err == 'string'){
             res.locals.Page.Content = err;
         }
-        console.log('error',queryPage);
         return sendResult(req,res,next);
     });
     
@@ -43,7 +38,6 @@ var ui = function(req, res, next) {
     });
     
     cms.once('page',function(page){
-        console.log('page',queryPage,page.ID);
         res.locals.Page = {
             ID: page.ID,
             Title: page.Title,
@@ -52,8 +46,8 @@ var ui = function(req, res, next) {
         };
         cms.navigation(page.ID);
     });
+    
     cms.get(queryPage);
-    return;
     
 }
 
