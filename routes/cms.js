@@ -52,10 +52,6 @@ var ui = function(req, res, next) {
 }
 
 var sendResult = function(req,res,next){
-    res.locals.Site = {
-        Title: cms.config.Title,
-        Tagline: cms.config.Tagline,
-    };
     return res.render(path.join(res.locals.Template,'pages',res.locals.Page.ClassName));
 }
 
