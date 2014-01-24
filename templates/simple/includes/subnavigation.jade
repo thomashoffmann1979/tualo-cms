@@ -1,0 +1,8 @@
+// Sample Text
+div.col-md-2
+    ul
+        - for (var i in Navigation)
+            - var item = Navigation[i];
+            - if (item.ShowInMenus == 0) continue;
+            li
+                a(href=item.URLSegment) #{item.Title}
