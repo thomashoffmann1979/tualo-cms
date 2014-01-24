@@ -3,3 +3,34 @@ body { padding-bottom: 90px; } /* needed for fixed footer */
 .navbar-inverse h1,.navbar-inverse p {
     color: white;
 }
+
+
+body {
+    background-color: #2183CC;
+    color: #082133;
+}
+.navbar-inverse{
+    background-color: #0A2940;
+    border-color:  #0A2940;
+}
+
+a{
+    color: #0C314C;
+    text-decoration: none;
+}
+a:hover{
+    color: #082133;
+}
+
+.navbar-inverse .navbar-nav>li>a{
+    color: #175A8C;
+}
+.navbar-inverse .navbar-nav>li>a:hover{
+    color: #2183CC;
+}
+
+.navbar-fixed-bottom{
+    background-color: #0A2940;
+    border-color:  #0A2940;
+}
+/* #0C314C;  0A2940 082133*/
