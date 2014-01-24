@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>navigationtree.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>navigationtree.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> EventEmitter = <span class="hljs-built_in">require</span>(<span class="hljs-string">'events'</span>).EventEmitter,
+    utilities = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../utilities'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>The <code>new NavigationTree()</code> returns an NaviationTree object.
+At the startup that object does nothing. </p>
+<h3 id="usage">Usage</h3>
+<pre><code>    navTree = new NavigationTree();
+    navTree.connection = myConnection;
+    navTree.on(&#39;ready&#39;, function(){
+        var handleTheTree = navTree.tree;
+        // ...
+    });
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> NavigationTree = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span>
+    <span class="hljs-keyword">this</span>._connection;
+    <span class="hljs-keyword">this</span>._tree;
+    <span class="hljs-keyword">this</span>._eventCounter=<span class="hljs-number">0</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+}
+
+utilities.inherits(NavigationTree, EventEmitter, {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Before you can start with, you have to set a connection to a database.
+A <a href="https://github.com/felixge/node-mysql">mysql</a> connection object will work.
+But you can give any connection object you want, it must provide a 
+<code>query(sql,argsArray,callback(err,rows))</code> behavior like the mysql&#39;s one.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    get connection () { <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._connection; },
+    set connection (v) { <span class="hljs-keyword">this</span>._connection = v; <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>; },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>If the <code>ready</code> event fired up. The <code>tree</code> property will hold the 
+full (sub-) sitemap, depending on your starting point.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    
+    get tree () { <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._tree; },
+    set tree (v) { <span class="hljs-keyword">this</span>._tree = v; <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>; },
+    
+
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p><code>childReady</code> is used internally for detecting, if all sub tree&#39;s 
+are ready. After that the <code>ready</code> event will be emitted.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>NavigationTree.prototype.childReady = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(index)</span>{</span>
+    <span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;
+    self._eventCounter -= <span class="hljs-number">1</span>;
+    
+    self.tree[index].tree = self.tree[index]._treeObject.tree;
+    <span class="hljs-keyword">delete</span> self.tree[index]._treeObject;
+    <span class="hljs-keyword">if</span> ( self._eventCounter == <span class="hljs-number">0</span>){
+        self.emit(<span class="hljs-string">'ready'</span>);    
+    }
+    
+
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>With <code>queryTree(id)</code> you start the building of the naviagtion tree (sitemap).
+On successfully querying all subtree&#39;s the <code>ready</code> event will be emitted. If
+an error occours the <code>error</code> event will be thrown.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>NavigationTree.prototype.queryTree = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(ID)</span>{</span>
+    <span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;
+    self.connection.query(<span class="hljs-string">'select ID, URLSegment, Title, MenuTitle, ShowInMenus, ParentID from `SiteTree` where ParentID = ? order by Sort'</span>,[ID], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, rows, fields)</span> {</span>
+        <span class="hljs-keyword">if</span> (err){
+            self.emit(<span class="hljs-string">'error'</span>,err);
+
+        }<span class="hljs-keyword">else</span>{
+            self._eventCounter = rows.length;
+            <span class="hljs-keyword">if</span> ( self._eventCounter == <span class="hljs-number">0</span> ){
+                self.emit(<span class="hljs-string">'ready'</span>);
+            }<span class="hljs-keyword">else</span>{
+                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i <span class="hljs-keyword">in</span> rows){
+                    rows[i]._treeObject = <span class="hljs-keyword">new</span> NavigationTree();
+                    rows[i]._treeObject.connection = self.connection;
+                    rows[i]._treeObject.queryTree(rows[i].ID);
+                    rows[i]._treeObject.once(<span class="hljs-string">'ready'</span>,self.childReady.bind(self,i));
+                    rows[i]._treeObject.once(<span class="hljs-string">'error'</span>,self.emit.bind(<span class="hljs-string">'error'</span>));
+                }
+                self.tree = rows;
+            }
+        }
+    });
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>The <code>treeHTML(tree,[option])</code> is beside the <code>NavigationTree</code> constructor the
+only function exported by this module. So you can provide this function 
+in your view compiler&#39;s <code>locals</code> variable.</p>
+<p><code>tree</code> has to be an <code>NavigationTree.tree</code> object. The <code>option</code> parameter
+is an optional object. With that parameter you can controll the html output.</p>
+<h3 id="options">options</h3>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> treeHTML = exports.treeHTML = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(tree,options)</span>{</span>
+    <span class="hljs-keyword">try</span>{
+        <span class="hljs-keyword">var</span> result = [],
+            i,
+            item;
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> options == <span class="hljs-string">'undefined'</span>){
+            options = {}; <span class="hljs-comment">// </span>
+        }
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> options.inMenues == <span class="hljs-string">'undefined'</span>){</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <ul>
+<li><code>inMenues</code> defaults to <code>true</code>, if you set it to <code>false</code> the 
+complete sitemap will be returned, inlcuding hidden pages.</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            options.inMenues = <span class="hljs-literal">true</span>;    
+        }
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> options.listItemStart == <span class="hljs-string">'undefined'</span>){</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <ul>
+<li><code>listItemStart</code> defaults to <code>&lt;li&gt;</code>, set the starting html tag for an item.</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            options.listItemStart = <span class="hljs-string">'&lt;li&gt;'</span>;
+        }
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> options.listItemStop == <span class="hljs-string">'undefined'</span>){</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <ul>
+<li><code>listItemStop</code> defaults to <code>&lt;/li&gt;</code>, set the closing html tag for an item.</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            options.listItemStop = <span class="hljs-string">'&lt;/li&gt;'</span>;
+        }
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> options.listStart == <span class="hljs-string">'undefined'</span>){</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <ul>
+<li><code>listStart</code> defaults to <code>&lt;ul&gt;</code>, set the starting html tag for the list (or sublist).</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            options.listStart = <span class="hljs-string">'&lt;ul&gt;'</span>;
+        }
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> options.listStop == <span class="hljs-string">'undefined'</span>){</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <ul>
+<li><code>listStop</code> defaults to <code>&lt;/ul&gt;</code>, set the closing html tag for the list (or sublist).</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            options.listStop = <span class="hljs-string">'&lt;/ul&gt;'</span>;
+        }
+        <span class="hljs-keyword">for</span>( <span class="hljs-keyword">var</span> i <span class="hljs-keyword">in</span> tree ){
+            item = tree[i];
+            <span class="hljs-keyword">if</span> ((options.inMenues === <span class="hljs-literal">false</span>) || (item.ShowInMenus == <span class="hljs-number">1</span>)){
+                <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> tree[i].tree == <span class="hljs-string">'undefined'</span>){
+                    result.push(tree[i].Title)
+                }<span class="hljs-keyword">else</span>{
+                    result.push(tree[i].Title + treeHTML(tree[i].tree,options));
+                }
+            }
+        }
+        <span class="hljs-keyword">return</span> options.listStart+options.listItemStart+result.join(options.listItemStop+options.listItemStart)+options.listItemStop+options.listStop;
+    }<span class="hljs-keyword">catch</span>(err){</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>If an error occours &quot;Error: in treeHTML&quot; will be returned.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">return</span> <span class="hljs-string">"Error: in treeHTML"</span>;
+    }
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>example.jade:</p>
+<pre><code>   div
+      - var html = treeHTML(sitemap,{inMenues: false})
+      !{html}
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>exports.NavigationTree = NavigationTree;</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
