@@ -1,4 +1,5 @@
-body { padding-top: 90px; }
+body { padding-top: 90px; } /* needed for fixed header */
+body { padding-bottom: 90px; } /* needed for fixed footer */
 .navbar-inverse h1,.navbar-inverse p {
     color: white;
 }
