@@ -43,9 +43,9 @@ var sendResult = function(req,res,next){
 
 exports.route = function(app){
     cms = app.get('cms');
-    app.get(app.get('base path')+'/admin/pages/*',pages);
-    app.get(app.get('base path')+'/admin/settings',ui);
-    app.get(app.get('base path')+'/admin/security',ui);
-    app.get(app.get('base path')+'/admin/*',defaults);
-    app.get(app.get('base path')+'/admin',defaults);
+    app.all(app.get('base path')+'/admin/pages/*',pages);
+    app.all(app.get('base path')+'/admin/settings',ui);
+    app.all(app.get('base path')+'/admin/security',ui);
+    app.all(app.get('base path')+'/admin/*',defaults);
+    app.all(app.get('base path')+'/admin',defaults);
 }

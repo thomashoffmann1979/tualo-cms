@@ -6,9 +6,17 @@ body { padding-bottom: 90px; } /* needed for fixed footer */
 
 
 body {
-    background-color: #2183CC;
+    /*
     color: #082133;
+    color: #2183CC;
+    */
+    background-color: #ffffff;
+    color: #0A2940;
+    /*text-shadow: #99A8FF 0px 0px 1px;*/
 }
+hr{ color: #0A2940; width: 80%; }
+h1{ text-shadow: #082133 1px 1px 1px; }
+
 .navbar-inverse{
     background-color: #0A2940;
     border-color:  #0A2940;
@@ -32,5 +40,9 @@ a:hover{
 .navbar-fixed-bottom{
     background-color: #0A2940;
     border-color:  #0A2940;
+}
+nav.navbar{
+    padding-left: 15px;
+    padding-right: 15px;
 }
 /* #0C314C;  0A2940 082133*/
