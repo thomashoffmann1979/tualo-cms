@@ -4,6 +4,5 @@ div.col-md-2
         - for (var i in Navigation)
             - var item = Navigation[i];
             - if (item.ShowInMenus == 0) continue;
-            - var link = originalPath+'/'+item.URLSegment;
             li
-                a(href=item.URLSegment) #{item.Title}
+                a(href=URLPath+'/'+item.URLSegment) #{item.Title}

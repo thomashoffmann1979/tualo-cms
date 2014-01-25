@@ -1,0 +1,12 @@
+- if (typeof CurrentUser == 'undefined')
+    form.navbar-form.navbar-right(role="form",method="post",action=URLPath)
+        span.input-group.login-control
+            input.form-control(type="text",placeholder="Email",name="username")
+            input.form-control(type="password",placeholder="Password",name="password")
+            span.input-group-btn
+                button.btn.btn-success(type="submit") Sign In
+- else 
+    form.navbar-form.navbar-right(role="form",method="post",action=URLPath+"/?logout=1")
+        span Logged in as !{CurrentUser.Email}
+        span &nbsp;
+        button.btn(type="submit") Logout
