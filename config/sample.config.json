@@ -1,5 +1,8 @@
 {
     "basePath": "",
+    "cookieName": "mysiteCookie",
+    "cookieDays": 30,
+    "sessionSecret": "mySessionSecret",
     
     "database": {
         "database": "mysite",

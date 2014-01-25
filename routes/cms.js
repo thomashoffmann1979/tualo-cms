@@ -3,7 +3,7 @@ var path = require('path'),
 
 var ui = function(req, res, next) {
     
-    console.log(req.session);
+    //console.log(req.session);
     
     var urlParts = req.originalUrl.split('/'),
         queryPage = urlParts[1];

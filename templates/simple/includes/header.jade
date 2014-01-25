@@ -15,8 +15,9 @@ nav.navbar.navbar-fixed-top(role="navigation")
                     li
                         a(href=item.URLSegment) #{item.Title}
             form.navbar-form.navbar-right(role="form",method="post",action="/")
-                div.form-group
+                span.input-group.login-control
                   input.form-control(type="text",placeholder="Email",name="username")
-                div.form-group
                   input.form-control(type="password",placeholder="Password",name="password")
-                button.btn.btn-success(type="submit") Sign In
+                  span.input-group-btn
+                    button.btn.btn-success(type="submit") Sign In
+hr
