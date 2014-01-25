@@ -1,58 +1,45 @@
-body { padding-top: 90px; } /* needed for fixed header */
-body { padding-bottom: 90px; } /* needed for fixed footer */
+/*body { padding-top: 90px; }*/ /* needed for fixed header */
+/*body { padding-bottom: 90px; }*/ /* needed for fixed footer */
 
+body, a, a:hover{
+    color: #13267F;
+}
+
+a, a:hover{
+    color: #13267F;
+}
+
+nav.navbar{
+    background-color: #728BFF;
+    border-radius: 0px;
+    border: 0px;
+    box-shadow: rgba(114,139,255,0.6) 0px 1px 1px;
+}
+.navbar-toggle, .navbar-brand, .nav>li>a{
+    color: white;
+    text-shadow: #13267F 1px 1px 1px;
+}
+.navbar-brand:hover, .nav>li>a:hover{
+    color: white;
+    background-color: transparent;
+    text-shadow: #000 1px 1px 1px;
+}
+
+
+/*
+
+13267F darkest
+728BFF lightest
+264BFF lighter
+39457F darker
+1E3CCC medium
+*/
 /* displaying the login fileds sticked together */
 .login-control {
-  max-width: 400px;
+  max-width: 300px;
 }
 /* displaying the login fileds sticked together */
 .login-control > .form-control {
     /*float: right;*/
-    width: 165px;
+    width: 115px;
 }
-
-body {
-    /*
-    color: #082133;
-    color: #2183CC;
-    */
-    background-color: #ffffff;
-    color: #0A2940;
-    /*text-shadow: #99A8FF 0px 0px 1px;*/
-}
-hr{ color: #0A2940; width: 80%; }
-h1{ text-shadow: #082133 1px 1px 1px; }
-
-nav.navbar{
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-/*
-.navbar-inverse{
-    background-color: #0A2940;
-    border-color:  #0A2940;
-}
-
-a{
-    color: #0C314C;
-    text-decoration: none;
-}
-a:hover{
-    color: #082133;
-}
-
-.navbar-inverse .navbar-nav>li>a{
-    color: #175A8C;
-}
-.navbar-inverse .navbar-nav>li>a:hover{
-    color: #2183CC;
-}
-
-.navbar-fixed-bottom{
-    background-color: #0A2940;
-    border-color:  #0A2940;
-}
-
-*/
-/* #0C314C;  0A2940 082133*/

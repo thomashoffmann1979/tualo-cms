@@ -1,0 +1,35 @@
+#adminPageContent{
+    display: none;
+}
+
+.sidr-inner{
+    padding-top: 15px !important;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+}
+
+#adminToogle {
+    position: absolute;
+    z-index: 9999;
+    top: 10.854em;
+    left: -10px; 
+    line-height: 15px;
+    padding-right: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 12px;
+    text-align: left;
+    border-radius: 10px;
+    background-color: rgba(0,0,0,0.8);
+    box-shadow: gray 1px 2px 2px;
+    color: white;
+}
+
+a#adminToogleLink{
+    color: white;
+}
+
+a#adminToogleLink:hover{
+    color: #728BFF;
+}
