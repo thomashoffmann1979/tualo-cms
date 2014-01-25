@@ -38,6 +38,7 @@ var pages = function(req, res, next) {
 }
 
 var sendResult = function(req,res,next){
+    res.locals.URLPath = req.path.replace(/\/$/,'');
     return res.render(path.join(res.locals.Template,'pages',res.locals.Page.ClassName));
 }
 

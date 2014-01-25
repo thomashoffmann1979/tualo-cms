@@ -3,11 +3,17 @@ var path = require('path'),
 
 var ui = function(req, res, next) {
     
-    //console.log(req.session);
+    var urlParts = req.path.split('/'),
+        queryPage = urlParts[urlParts.length - 1];
     
-    var urlParts = req.originalUrl.split('/'),
-        queryPage = urlParts[1];
-    
+    /* if a tailing slash is in the url, and it not the basePath the requested page is the predecessor*/
+    if (queryPage == ''){
+        if ( (cms.config.basePath.split('/')).length < (urlParts.length-1) ){
+            if (urlParts.length>1){
+                queryPage = urlParts[urlParts.length - 2]
+            }
+        }
+    }
     if (queryPage == ''){
         queryPage = 'home';
     }
@@ -54,6 +60,7 @@ var ui = function(req, res, next) {
 }
 
 var sendResult = function(req,res,next){
+    res.locals.URLPath = req.path.replace(/\/$/,'');
     return res.render(path.join(res.locals.Template,'pages',res.locals.Page.ClassName));
 }
 
